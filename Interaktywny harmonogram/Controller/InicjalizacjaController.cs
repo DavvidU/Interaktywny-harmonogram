@@ -10,6 +10,7 @@ namespace Interaktywny_harmonogram.Controller
     internal class InicjalizacjaController
     {
         private Kalendarz kalendarz;
+        private Macierz macierz;
         private DateTime aktualna_data;
         public InicjalizacjaController()
         {
@@ -19,9 +20,11 @@ namespace Interaktywny_harmonogram.Controller
         {
             aktualna_data = DateTime.Now;
             kalendarz = Kalendarz.GetKalendarz();
+            macierz = Macierz.GetMacierz();
 
             ZainicjujPustyKalendarz();
             WypelnijStartowyKalendarz();
+            WypelnijStartowaMacierz();
 
             return true;
         }
@@ -39,8 +42,13 @@ namespace Interaktywny_harmonogram.Controller
             LadowaniePlikuDoPamieciController kontroler = LadowaniePlikuDoPamieciController.GetInstance();
             foreach (Rok rok in kalendarz.lata)
             {
-                kontroler.ZaladujRok(rok);
+                kontroler.ZaladujRokLubMacierz(rok, "rok");
             }
+        }
+        private void WypelnijStartowaMacierz()
+        {
+            LadowaniePlikuDoPamieciController kontroler = LadowaniePlikuDoPamieciController.GetInstance();
+            kontroler.ZaladujRokLubMacierz(null, "macierz");
         }
         /*
         public DateTime PobierzAktualnaDate()

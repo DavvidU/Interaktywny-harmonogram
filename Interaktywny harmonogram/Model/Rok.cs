@@ -10,6 +10,7 @@ namespace Interaktywny_harmonogram.Model
     {
         private int rok;
         private Miesiac[] miesiace = new Miesiac[12];
+        public bool nowy = false;
         public Rok(int rok)
         {
             this.rok = rok;

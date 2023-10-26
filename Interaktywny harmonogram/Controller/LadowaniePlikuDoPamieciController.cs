@@ -11,42 +11,63 @@ namespace Interaktywny_harmonogram.Controller
     {
         private static LadowaniePlikuDoPamieciController instance = new LadowaniePlikuDoPamieciController();
         private LadowaniePlikuDoPamieciController() { }
-        public bool ZaladujRok(Rok rok)
+        public bool ZaladujRokLubMacierz(Rok? rok, string typPliku)
         {
-            if (rok == null) { return false; }
+            if (rok == null && typPliku == "rok") { return false; }
+            if (typPliku == null) { return false; };
 
-            Miesiac[] miesiace = rok.GetMiesiace();
+            Macierz macierz = Macierz.GetMacierz();
+            string sciezkaPliku;
+            if (typPliku == "rok")
+                sciezkaPliku = rok.GetRok() + ".txt";
+            else
+                sciezkaPliku = "macierz.txt";
 
             try
             {
-                string sciezkaPliku = rok.GetRok() + ".txt";
+                
                 using (StreamReader sr = new StreamReader(sciezkaPliku))
                 {
                     string wierszFizyczny; //rzeczywisty jeden wiersz w pliku
-                    string wierszLogiczny = ""; //blok wierszy rzeczywistyh obejmujacy jedno zadanie
+                    string wierszLogiczny = ""; //blok wierszy rzeczywistych obejmujacy jedno zadanie
 
                     string miesiac = "";
                     string dzien = "";
-                    string[] daneDoZapisu = new string[6];
+                    string kategorie = "";
+
+                    string[] daneDoZapisu = new string[7];
 
                     // Czytanie calego pliku wiersz po wierszu (fizycznym)
                     while ((wierszFizyczny = sr.ReadLine()) != null)
                     {
-                        // Sprawdz czy przeczytano date
-                        if (wierszLogiczny.StartsWith("%%$#!"))
+                        // Sprawdz czy przeczytano date lub kategorie macierzy
+                        if (wierszFizyczny.StartsWith("%%$#!"))
                         {
                             /* 
-                             * jesli przeczytano date, ustal odpowiedni miesiac i dzien do modelu
-                             * nastepnie przejdz do przeczytania kolejnego wiersza (zadania lub kolejnego dnia)
+                             * jesli przeczytano date, ustal odpowiedni miesiac i dzien do modelu kalendarza
+                             * lub jesli przeczytano kategorie, ustal odpowiednia kategorie do modelu macierzy;
+                             * nastepnie przejdz do przeczytania kolejnego wiersza (zadania lub kolejnego dnia/kat.)
                              */
-                            miesiac += wierszLogiczny[5];
-                            miesiac += wierszLogiczny[6];
-                            dzien += wierszLogiczny[8];
-                            dzien += wierszLogiczny[9];
+                            if (typPliku == "rok")
+                            {
+                                miesiac = "";
+                                dzien = "";
+
+                                miesiac += wierszFizyczny[5];
+                                miesiac += wierszFizyczny[6];
+                                dzien += wierszFizyczny[8];
+                                dzien += wierszFizyczny[9];
+                            }
+                            else //dla macierzy Eisenhowera:
+                            {
+                                kategorie = "";
+                                kategorie += wierszFizyczny[5];
+                                kategorie += wierszFizyczny[6];
+                            }
 
                             continue;
                         }
-                        //od tad znany jest miesiac i dzien
+                        //od tad znany jest miesiac i dzien / kategoria
                         
                         wierszLogiczny += wierszFizyczny;
                         // Sprawdzenie czy przeczytano logicznie pelny wiersz
@@ -55,14 +76,27 @@ namespace Interaktywny_harmonogram.Controller
                             wierszLogiczny += System.Environment.NewLine;
                             continue;
                         }
-                        // Tu przeczytano logicznie pelny wiersz + znana data
+                        // Tu przeczytano logicznie pelny wiersz + znana data/ kategoria
 
                         // Sformatowanie wiersza logicznego i zapis zadania do modelu
-                        daneDoZapisu = wierszLogiczny.Split("%%+!", StringSplitOptions.RemoveEmptyEntries);
+                        daneDoZapisu = wierszLogiczny.Split("%%+!", StringSplitOptions.None);
+                        daneDoZapisu[6] = daneDoZapisu[6].Remove(1); //usun ciag konca wiersza logicznego
 
-                        rok.GetMiesiace()[miesiac - 1].GetDni()[dzien - 1].DodajZadanie(daneDoZapisu);
+                        if (typPliku == "rok")
+                            rok.GetMiesiace()[WyznaczInt(miesiac) - 1].GetDni()[WyznaczInt(dzien) - 1].
+                                DodajZadanie(daneDoZapisu);
+                        else
+                            macierz.DodajZadanie(daneDoZapisu, kategorie);
+
+                        wierszLogiczny = "";
                     }
                 }
+            }
+            catch (FileNotFoundException ex)
+            {
+                Console.WriteLine(ex.Message);
+                File.Create(sciezkaPliku);
+                rok.nowy = true;
             }
             catch (Exception ex)
             {
@@ -75,7 +109,7 @@ namespace Interaktywny_harmonogram.Controller
         private int WyznaczInt(string s)
         {
             if (s[0] == '0')
-                s.Remove(0, 1);
+                s = s.Remove(0, 1);
             int i = Int32.Parse(s);
             return i;
 
