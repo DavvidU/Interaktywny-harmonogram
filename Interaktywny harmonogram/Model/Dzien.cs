@@ -23,13 +23,41 @@ namespace Interaktywny_harmonogram.Model
                 daneZadania[3] == "1", daneZadania[4] == "1", daneZadania[5] == "1"));
             return true; //if success
         }
-        public bool UsunZadanie()
+        public bool UsunZadanie(Zadanie templateZadaniaDoUsunieca)
         {
+            // Zlokalizuj zadanie
+            Zadanie zadanieDoUsuniecia = ZlokalizujZadanie(templateZadaniaDoUsunieca);
+            if (zadanieDoUsuniecia == null)
+                return false; // Nie ma takiego zadania
+           
+            // Usun zadanie
+            zadania.Remove(zadanieDoUsuniecia);
             return true; //if success
         }
-        public bool EdytujZadanie()
+        public bool EdytujZadanie(string[] noweDaneZadania, Zadanie templateZadaniaDoEdycji)
         {
+            // Zlokalizuj zadanie
+            Zadanie zadanieDoEdycji = ZlokalizujZadanie(templateZadaniaDoEdycji);
+            if (zadanieDoEdycji == null)
+                return false; // Nie ma takiego zadnia
+
+            // Edytuj zadanie
+            zadanieDoEdycji.naglowek = noweDaneZadania[1];
+            zadanieDoEdycji.opis = noweDaneZadania[2];
+            zadanieDoEdycji.pilne = noweDaneZadania[3] == "1";
+            zadanieDoEdycji.wazne = noweDaneZadania[4] == "1";
+            zadanieDoEdycji.wykonane = noweDaneZadania[5] == "1";
             return true; //if success
+        }
+        private Zadanie ZlokalizujZadanie(Zadanie templateDoZlokalizowania)
+        {
+            Zadanie zadanieDoZlokalizowania = null;
+            foreach (Zadanie zadanie in zadania)
+            {
+                if (zadanie.Equals(templateDoZlokalizowania))
+                    zadanieDoZlokalizowania = zadanie;
+            }
+            return zadanieDoZlokalizowania;
         }
     }
 }

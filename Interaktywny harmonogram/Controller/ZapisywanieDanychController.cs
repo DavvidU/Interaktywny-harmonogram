@@ -10,7 +10,7 @@ namespace Interaktywny_harmonogram.Controller
 {
     internal class ZapisywanieDanychController
     {
-        private static ZapisywanieDanychController instance;
+        private static ZapisywanieDanychController instance = new ZapisywanieDanychController();
         private ZapisywanieDanychController() { }
         public void ZapiszKalendarz()
         {
@@ -41,12 +41,12 @@ namespace Interaktywny_harmonogram.Controller
                     zadaniaTejKategorii = macierz.PilneWazne;
                     akronimKategorii = "PW";
                 }
-                if (i == 1)
+                else if (i == 1)
                 {
                     zadaniaTejKategorii = macierz.NiepilneWazne;
                     akronimKategorii = "NW";
                 }
-                if (i == 2)
+                else if (i == 2)
                 {
                     zadaniaTejKategorii = macierz.PilneNiewazne;
                     akronimKategorii = "PN";

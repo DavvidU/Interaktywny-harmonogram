@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Interaktywny_harmonogram.Model
 {
-    internal class Zadanie
+    internal class Zadanie : IEquatable<Zadanie>
     {
         public string naglowek;
         public string opis;
@@ -23,6 +23,15 @@ namespace Interaktywny_harmonogram.Model
             this.pilne = pilne;
             this.wazne = wazne;
             this.wykonane = wykonane;
+        }
+        public bool Equals(Zadanie? other)
+        {
+            if (other == null) 
+                return false;
+            if (other.naglowek != naglowek || other.opis != opis
+                || other.pilne != pilne || other.wazne != wazne || other.wykonane != wykonane)
+                return false;
+            return true;
         }
     }
 }
