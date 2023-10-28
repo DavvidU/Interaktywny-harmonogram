@@ -21,6 +21,7 @@ namespace Interaktywny_harmonogram.Controller
             aktualna_data = DateTime.Now;
             kalendarz = Kalendarz.GetKalendarz();
             macierz = Macierz.GetMacierz();
+            //bycmoze w inicjalizacji stworzenie plikow 10 lat i macierzy jesli nie ma?
 
             ZainicjujPustyKalendarz();
             WypelnijStartowyKalendarz();
@@ -39,7 +40,7 @@ namespace Interaktywny_harmonogram.Controller
         }
         private void WypelnijStartowyKalendarz()
         {
-            LadowaniePlikuDoPamieciController kontroler = LadowaniePlikuDoPamieciController.GetInstance();
+            WczytywanieDanychController kontroler = WczytywanieDanychController.GetInstance();
             foreach (Rok rok in kalendarz.lata)
             {
                 kontroler.ZaladujRokLubMacierz(rok, "rok");
@@ -47,7 +48,7 @@ namespace Interaktywny_harmonogram.Controller
         }
         private void WypelnijStartowaMacierz()
         {
-            LadowaniePlikuDoPamieciController kontroler = LadowaniePlikuDoPamieciController.GetInstance();
+            WczytywanieDanychController kontroler = WczytywanieDanychController.GetInstance();
             kontroler.ZaladujRokLubMacierz(null, "macierz");
         }
         /*

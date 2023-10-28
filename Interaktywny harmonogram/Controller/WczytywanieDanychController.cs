@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Interaktywny_harmonogram.Controller
 {
-    internal class LadowaniePlikuDoPamieciController
+    internal class WczytywanieDanychController
     {
-        private static LadowaniePlikuDoPamieciController instance = new LadowaniePlikuDoPamieciController();
-        private LadowaniePlikuDoPamieciController() { }
+        private static WczytywanieDanychController instance = new WczytywanieDanychController();
+        private WczytywanieDanychController() { }
         public bool ZaladujRokLubMacierz(Rok? rok, string typPliku)
         {
             if (rok == null && typPliku == "rok") { return false; }
@@ -35,7 +35,7 @@ namespace Interaktywny_harmonogram.Controller
                     string dzien = "";
                     string kategorie = "";
 
-                    string[] daneDoZapisu = new string[7];
+                    string[] daneDoZapisu = new string[6];
 
                     // Czytanie calego pliku wiersz po wierszu (fizycznym)
                     while ((wierszFizyczny = sr.ReadLine()) != null)
@@ -80,7 +80,7 @@ namespace Interaktywny_harmonogram.Controller
 
                         // Sformatowanie wiersza logicznego i zapis zadania do modelu
                         daneDoZapisu = wierszLogiczny.Split("%%+!", StringSplitOptions.None);
-                        daneDoZapisu[6] = daneDoZapisu[6].Remove(1); //usun ciag konca wiersza logicznego
+                        daneDoZapisu[5] = daneDoZapisu[5].Remove(1); //usun ciag konca wiersza logicznego
 
                         if (typPliku == "rok")
                             rok.GetMiesiace()[WyznaczInt(miesiac) - 1].GetDni()[WyznaczInt(dzien) - 1].
@@ -95,7 +95,8 @@ namespace Interaktywny_harmonogram.Controller
             catch (FileNotFoundException ex)
             {
                 Console.WriteLine(ex.Message);
-                File.Create(sciezkaPliku);
+                var nowy_plik = File.Create(sciezkaPliku);
+                nowy_plik.Close();
                 rok.nowy = true;
             }
             catch (Exception ex)
@@ -105,7 +106,6 @@ namespace Interaktywny_harmonogram.Controller
 
             return true;
         }
-        public static LadowaniePlikuDoPamieciController GetInstance() { return instance; }
         private int WyznaczInt(string s)
         {
             if (s[0] == '0')
@@ -114,5 +114,6 @@ namespace Interaktywny_harmonogram.Controller
             return i;
 
         }
+        public static WczytywanieDanychController GetInstance() { return instance; }
     }
 }

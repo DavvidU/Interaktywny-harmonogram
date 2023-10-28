@@ -19,17 +19,17 @@ namespace Interaktywny_harmonogram.Model
         public void DodajZadanie(string[] daneZadania, string kategorie)
         {
             if (kategorie == "PW")
-                PilneWazne.Add(new Zadanie(Int32.Parse(daneZadania[1]), daneZadania[2], daneZadania[3],
-                    daneZadania[4] == "1", daneZadania[5] == "1", daneZadania[6] == "1"));
+                PilneWazne.Add(new Zadanie(daneZadania[1], daneZadania[2],
+                    daneZadania[3] == "1", daneZadania[4] == "1", daneZadania[5] == "1"));
             if (kategorie == "NW")
-                NiepilneWazne.Add(new Zadanie(Int32.Parse(daneZadania[1]), daneZadania[2], daneZadania[3],
-                    daneZadania[4] == "1", daneZadania[5] == "1", daneZadania[6] == "1"));
+                NiepilneWazne.Add(new Zadanie(daneZadania[1], daneZadania[2],
+                    daneZadania[3] == "1", daneZadania[4] == "1", daneZadania[5] == "1"));
             if (kategorie == "PN")
-                PilneNiewazne.Add(new Zadanie(Int32.Parse(daneZadania[1]), daneZadania[2], daneZadania[3],
-                    daneZadania[4] == "1", daneZadania[5] == "1", daneZadania[6] == "1"));
+                PilneNiewazne.Add(new Zadanie(daneZadania[1], daneZadania[2],
+                    daneZadania[3] == "1", daneZadania[4] == "1", daneZadania[5] == "1"));
             if (kategorie == "NN")
-                NiepilneNiewazne.Add(new Zadanie(Int32.Parse(daneZadania[1]), daneZadania[2], daneZadania[3],
-                    daneZadania[4] == "1", daneZadania[5] == "1", daneZadania[6] == "1"));
+                NiepilneNiewazne.Add(new Zadanie(daneZadania[1], daneZadania[2],
+                    daneZadania[3] == "1", daneZadania[4] == "1", daneZadania[5] == "1"));
         }
         public void UsunZadanie()
         {

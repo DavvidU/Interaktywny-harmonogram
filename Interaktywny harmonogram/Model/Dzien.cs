@@ -19,8 +19,8 @@ namespace Interaktywny_harmonogram.Model
         public List<Zadanie> GetZadania() {  return zadania; }
         public bool DodajZadanie(string[] daneZadania)
         {
-            zadania.Add(new Zadanie(Int32.Parse(daneZadania[1]) ,daneZadania[2], daneZadania[3],
-                daneZadania[4] == "1", daneZadania[5] == "1", daneZadania[6] == "1"));
+            zadania.Add(new Zadanie(daneZadania[1], daneZadania[2],
+                daneZadania[3] == "1", daneZadania[4] == "1", daneZadania[5] == "1"));
             return true; //if success
         }
         public bool UsunZadanie()
