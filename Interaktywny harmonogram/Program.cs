@@ -1,16 +1,22 @@
 ﻿using Interaktywny_harmonogram.Model;
 using Interaktywny_harmonogram.Controller;
-//using System.Threading.Channels;
 
-/*
-Console.WriteLine(kalendarz.lata.First.Value.GetRok());
-Console.WriteLine(kalendarz.lata.First.Value.GetMiesiace()[0].GetDni()[0].GetZadania());
-bool result = kalendarz.lata.First.Value.GetMiesiace()[0].GetDni()[0].EdytujZadanie();
-*/
-
-
+// Zablokowac sygnaly
 
 InicjalizacjaController kontroler_init = new InicjalizacjaController();
+
+
+/* 
+ * Widoki:
+ * - ConfigView
+ * - MenuView - Macierz | Kalendarz | Ustawienia | Exit
+ * 
+ * Przebieg programu:-----------------------------------------------
+ *      Sterowanie w InitController
+ *      MenuView();
+ * 
+ *      Sterowanie oddane do MenuController ----------
+
 
 
 //@@@@@@@@@@@ Testowanie Dodawania, Edycji i Usuwania

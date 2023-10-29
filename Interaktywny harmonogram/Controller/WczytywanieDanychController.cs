@@ -97,7 +97,6 @@ namespace Interaktywny_harmonogram.Controller
                 Console.WriteLine(ex.Message);
                 var nowy_plik = File.Create(sciezkaPliku);
                 nowy_plik.Close();
-                rok.nowy = true;
             }
             catch (Exception ex)
             {
@@ -105,6 +104,10 @@ namespace Interaktywny_harmonogram.Controller
             }
 
             return true;
+        }
+        public void ZaladujKonfiguracje()
+        {
+
         }
         private int WyznaczInt(string s)
         {

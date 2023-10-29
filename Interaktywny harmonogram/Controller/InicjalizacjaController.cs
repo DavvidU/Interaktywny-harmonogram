@@ -21,11 +21,14 @@ namespace Interaktywny_harmonogram.Controller
             aktualna_data = DateTime.Now;
             kalendarz = Kalendarz.GetKalendarz();
             macierz = Macierz.GetMacierz();
-            //bycmoze w inicjalizacji stworzenie plikow 10 lat i macierzy jesli nie ma?
 
             ZainicjujPustyKalendarz();
             WypelnijStartowyKalendarz();
             WypelnijStartowaMacierz();
+            //BYCMOZE ConfigController.ZaladujConfig()
+
+            MenuController menuController = MenuController.GetInstance();
+            menuController.MenuViewListener();
 
             return true;
         }
