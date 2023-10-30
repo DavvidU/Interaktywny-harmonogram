@@ -26,6 +26,10 @@ namespace Interaktywny_harmonogram.Controller
         {
 
         }
+        private void OblsuzInputUsera(ConsoleKeyInfo input)
+        {
+
+        }
         public static ConfigController GetInstance() { return Instance; }
     }
 }

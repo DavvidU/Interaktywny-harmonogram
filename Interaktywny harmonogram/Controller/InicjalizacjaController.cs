@@ -27,6 +27,15 @@ namespace Interaktywny_harmonogram.Controller
             WypelnijStartowaMacierz();
             //BYCMOZE ConfigController.ZaladujConfig()
 
+
+            ConsoleKeyInfo cki; //wcisniety przycisk w konsoli (np. x albo ctrl + C)
+
+            // Obsługa CTRL + C i CTRL + BREAK
+            Console.CancelKeyPress += new ConsoleCancelEventHandler(Console_CancelKeyPress);
+
+
+
+            Console.CursorVisible = false; //TO POTEM ODKOMOENTOWAC!!!!
             MenuController menuController = MenuController.GetInstance();
             menuController.MenuViewListener();
 
@@ -54,11 +63,9 @@ namespace Interaktywny_harmonogram.Controller
             WczytywanieDanychController kontroler = WczytywanieDanychController.GetInstance();
             kontroler.ZaladujRokLubMacierz(null, "macierz");
         }
-        /*
-        public DateTime PobierzAktualnaDate()
+        private static void Console_CancelKeyPress(object? sender, ConsoleCancelEventArgs e)
         {
-            aktualna_data = DateTime.Now;
-            return aktualna_data;
-        } To bedzie prawdopodobnie w innym controllerze niz Initialize */
+            e.Cancel = true;
+        }
     }
 }
